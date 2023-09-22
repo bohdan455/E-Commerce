@@ -1,6 +1,6 @@
 ﻿namespace Application.Dto
 {
-    public class ProductFullInfromation
+    public class ProductFullInformation
     {
         public int Id { get; set; }
 

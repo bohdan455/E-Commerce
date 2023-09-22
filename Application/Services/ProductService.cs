@@ -20,7 +20,7 @@ namespace Application.Services
             return await _context.Products.Select(p => p.ToBriefInforamtion()).ToListAsync();
         }
 
-        public async Task<ProductFullInfromation> GetById(int id)
+        public async Task<ProductFullInformation> GetById(int id)
         {
             var product = await _context.Products.FindAsync(id);
 

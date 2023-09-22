@@ -16,9 +16,9 @@ namespace Application.Extensions
             };
         }
 
-        public static ProductFullInfromation ToFullInfromation(this Product product)
+        public static ProductFullInformation ToFullInfromation(this Product product)
         {
-            return new ProductFullInfromation
+            return new ProductFullInformation
             {
                 Id = product.Id,
                 Name = product.Name,

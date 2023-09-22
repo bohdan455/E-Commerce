@@ -16,15 +16,15 @@ namespace DataAccess
             
         }
 
-        public DbSet<Product> Products { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         
-        public DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
 
-        public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
 
-        public DbSet<OrderPart> OrderParts { get; set; }
+        public virtual DbSet<OrderPart> OrderParts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
