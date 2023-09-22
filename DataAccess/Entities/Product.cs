@@ -19,6 +19,9 @@ namespace DataAccess.Entities
         [MaxLength(4000)]
         public string Description { get; set; } = default!;
 
+        [MaxLength(500)]
+        public string ImageUrl { get; set; } = default!;
+
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
     }
