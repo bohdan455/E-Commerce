@@ -8,15 +8,13 @@ namespace DataAccess.Entities
         [Key]
         public int Id { get; set; }
 
-        public Product Product { get; set; } = default!;
+        public OrderPart OrderPart { get; set; } = default!;
 
-        public int ProductId { get; set; }
+        public int OrderPartId { get; set; }
 
         public Customer Customer { get; set; } = default!;
 
         public int CustomerId { get; set; }
-
-        public int Quantity { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
