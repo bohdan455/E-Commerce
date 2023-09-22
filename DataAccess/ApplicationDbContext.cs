@@ -24,6 +24,8 @@ namespace DataAccess
 
         public DbSet<OrderStatus> OrderStatuses { get; set; }
 
+        public DbSet<OrderPart> OrderParts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
