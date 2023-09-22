@@ -54,6 +54,44 @@ namespace Application.Tests.Services
         }
 
         [Fact]
+        public async Task GetMultiple_ShouldReturnListOfProductBriefInformation()
+        {
+            // Arrange
+            var productsId = new List<int> { 1, 2 };
+            var products = new List<Product>
+        {
+            new Product {Id = 1, Name = "Product 1", Price = 10.00M},
+            new Product {Id = 2, Name = "Product 2", Price = 15.00M}
+        };
+            _mockContext.Setup(x => x.Products).ReturnsDbSet(products);
+
+            // Act
+            var result = await _productService.GetMultiple(productsId);
+
+            // Assert
+            Assert.Equal(productsId.Count, result.Count);
+            Assert.Contains(result, p => p.Name == "Product 1");
+            Assert.Contains(result, p => p.Name == "Product 2");
+        }
+
+        [Fact]
+        public async Task GetMultiple_WithInvalidId_ShouldThrowArgumentException()
+        {
+            // Arrange
+            var productsId = new List<int> { 3, 4 };
+            var products = new List<Product>
+        {
+            new Product {Id = 1, Name = "Product 1", Price = 10.00M},
+            new Product {Id = 2, Name = "Product 2", Price = 15.00M}
+        };
+            _mockContext.Setup(x => x.Products).ReturnsDbSet(products);
+
+            // Act and Assert
+            await Assert.ThrowsAsync<ArgumentException>(() =>_productService.GetMultiple(productsId));
+
+        }
+
+        [Fact]
         public async Task GetById_WithValidId_ShouldReturnProductFullInfromation()
         {
             // Arrange

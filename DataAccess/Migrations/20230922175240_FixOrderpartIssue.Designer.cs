@@ -3,6 +3,7 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230922175240_FixOrderpartIssue")]
+    partial class FixOrderpartIssue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +56,9 @@ namespace DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderPartId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderStatusId")
@@ -185,7 +191,7 @@ namespace DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.OrderStatus", "OrderStatus")
+                    b.HasOne("DataAccess.Entities.OrderStatus", "Status")
                         .WithMany()
                         .HasForeignKey("OrderStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -193,7 +199,7 @@ namespace DataAccess.Migrations
 
                     b.Navigation("Customer");
 
-                    b.Navigation("OrderStatus");
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.OrderPart", b =>

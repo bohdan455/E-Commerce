@@ -8,9 +8,7 @@ namespace DataAccess.Entities
         [Key]
         public int Id { get; set; }
 
-        public OrderPart OrderPart { get; set; } = default!;
-
-        public int OrderPartId { get; set; }
+        public List<OrderPart> OrderParts { get; set; } = default!;
 
         public Customer Customer { get; set; } = default!;
 
@@ -22,7 +20,7 @@ namespace DataAccess.Entities
         [MaxLength(255)]
         public string ShippingAddress { get; set; } = default!;
 
-        public OrderStatus Status { get; set; } = default!;
+        public OrderStatus OrderStatus { get; set; } = default!;
 
         public int OrderStatusId { get; set; }
     }

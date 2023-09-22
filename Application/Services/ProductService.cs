@@ -2,6 +2,7 @@
 using Application.Extensions;
 using Application.Services.Interfaces;
 using DataAccess;
+using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
@@ -27,5 +28,19 @@ namespace Application.Services
             return product?.ToFullInfromation() ?? throw new ArgumentException("Invalid product id");
         }
 
+        public async Task<List<ProductBriefInformation>> GetMultiple(List<int> productsId)
+        {
+            var products = await _context.Products
+                .Where(p => productsId.Contains(p.Id))
+                .Select(p => p.ToBriefInforamtion())
+                .ToListAsync();
+
+            if(products.Count != productsId.Count)
+            {
+                throw new ArgumentException("Invalid product indexes");
+            }
+
+            return products;
+        }
     }
 }
