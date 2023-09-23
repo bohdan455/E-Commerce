@@ -1,18 +1,22 @@
 ﻿@model ProductFullInformation
 
-<div class="card mb-3">
-    <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
-    <div class="card-body">
-        <h5 class="card-title">@Model.Name</h5>
-        <p class="card-text">@Model.Description</p>
-        <p class="card-text">@($"${Model.Price:N2}")</p>
-        <form method="post">
-            <div class="form-group">
-                <label for="quantity">Quantity: </label>
-                <input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control w-25 d-inline-block">
-            </div>
-            <input type="hidden" id="productId" name="productId" value="@Model.Id">
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
-        </form>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 order-lg-1">
+            <img src="@Model.ImageUrl" class="img-fluid" alt="@Model.Name">
+        </div>
+        <div class="col-lg-6 order-lg-2">
+            <h1 class="my-4">@Model.Name</h1>
+            <p>@Model.Description</p>
+            <h2>@($"${Model.Price:N2}")</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="10" class="form-control">
+                </div>
+                <input type="hidden" id="productId" name="productId" value="@Model.Id">
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+        </div>
     </div>
 </div>
