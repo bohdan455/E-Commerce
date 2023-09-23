@@ -1,8 +1,18 @@
+using Presentation.ApiRequests;
+using Presentation.ApiRequests.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpClient("Api", client =>
+{
+    var url = builder.Configuration["ApiUrl"] ?? throw new ArgumentException("Provide Api url in app config");
+    client.BaseAddress = new Uri(url);
+});
+
+builder.Services.AddScoped<IProductApiRequests, ProductApiRequests>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

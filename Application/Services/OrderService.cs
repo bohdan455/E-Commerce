@@ -20,24 +20,7 @@ namespace Application.Services
 
         public async Task CreateOrder(OrderModel orderModel)
         {
-            const int pendingOrderStatusId = 1;
-            var price = await CountPrice(orderModel);
-            var order = new Order
-            {
-                Customer = new Customer
-                {
-                    Name = orderModel.Name,
-                    Email = orderModel.Email
-                },
-                ShippingAddress = orderModel.ShippingAddress,
-                TotalPrice = price,
-                OrderParts = orderModel.OrderParts.Select(op => new OrderPart
-                {
-                    ProductId = op.ProductId,
-                    Quantity = op.Quantity
-                }).ToList(),
-                OrderStatusId = pendingOrderStatusId,
-            };
+            var order = await ParseModelToOrder(orderModel);
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
         }
@@ -55,6 +38,28 @@ namespace Application.Services
         private static int GetOrderPartQuantity(List<OrderPartModel> orderParts, int id)
         {
             return orderParts.First(op => op.ProductId == id).Quantity;
+        }
+
+        private async Task<Order> ParseModelToOrder(OrderModel orderModel)
+        {
+            const int pendingOrderStatusId = 1;
+
+            return new Order
+            {
+                Customer = new Customer
+                {
+                    Name = orderModel.Name,
+                    Email = orderModel.Email
+                },
+                ShippingAddress = orderModel.ShippingAddress,
+                TotalPrice = await CountPrice(orderModel),
+                OrderParts = orderModel.OrderParts.Select(op => new OrderPart
+                {
+                    ProductId = op.ProductId,
+                    Quantity = op.Quantity
+                }).ToList(),
+                OrderStatusId = pendingOrderStatusId,
+            };
         }
     }
 }
