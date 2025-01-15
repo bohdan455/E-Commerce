@@ -12,4 +12,5 @@ public interface IBaseElasticRepository<T> where T : class
     Task<SearchResponse<T>?> Query(SearchRequestDescriptor<T> sd);
     Task<bool> Remove(string key);
     Task<DeleteByQueryResponse> BulkRemove(DeleteByQueryRequestDescriptor<T> queryReq);
+    Task CreateIndex();
 }
