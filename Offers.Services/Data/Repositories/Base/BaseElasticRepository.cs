@@ -1,4 +1,5 @@
 ﻿using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.QueryDsl;
 using Elastic.Transport;
 using Microsoft.Extensions.Options;
@@ -20,7 +21,17 @@ public abstract class BaseElasticRepository<T> : IBaseElasticRepository<T> where
         IndexName = typeof(T).Name.ToLower() + "s";
     }
 
-    public abstract Task CreateIndex();
+    protected virtual async Task CreateIndex(Action<CreateIndexRequestDescriptor<T>> action)
+    {
+        var indexExists = await _client.Indices.ExistsAsync<T>(IndexName);
+
+        if (indexExists.Exists)
+        {
+            return;
+        }
+
+        var _ = await _client.Indices.CreateAsync<T>(IndexName, action);
+    }
     
     public virtual async Task<BulkResponse> AddOrUpdateBulk(IEnumerable<T> documents)
     {
