@@ -5,6 +5,7 @@ namespace Offers.Services.Data.Repositories.Base;
 
 public interface IBaseElasticRepository<T> where T : class
 {
+    Task CreateIndex(Action<CreateIndexRequestDescriptor<T>> action);
     Task<BulkResponse> AddOrUpdateBulk(IEnumerable<T> documents);
     Task<T> AddOrUpdate(T document);
     Task<BulkResponse> AddBulk(IList<T> documents);

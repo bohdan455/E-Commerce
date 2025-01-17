@@ -15,8 +15,4 @@
       <ProjectReference Include="..\Offers.Common\Offers.Common.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Data\Repositories\Interfaces\" />
-    </ItemGroup>
-
 </Project>

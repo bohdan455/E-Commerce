@@ -21,7 +21,7 @@ public abstract class BaseElasticRepository<T> : IBaseElasticRepository<T> where
         IndexName = typeof(T).Name.ToLower() + "s";
     }
 
-    protected virtual async Task CreateIndex(Action<CreateIndexRequestDescriptor<T>> action)
+    public virtual async Task CreateIndex(Action<CreateIndexRequestDescriptor<T>> action)
     {
         var indexExists = await _client.Indices.ExistsAsync<T>(IndexName);
 
