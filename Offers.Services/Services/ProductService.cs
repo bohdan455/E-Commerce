@@ -12,7 +12,14 @@ public class ProductService : IProductService
     {
         _productRepository = productRepository;
     }
-    
+
+    public async Task<Product> Get(string key)
+    {
+        var product = await _productRepository.Get(key);
+
+        return product.Source;
+    }
+
     public async Task<Product> AddOrUpdate(Product product)
     {
         var newProduct = await _productRepository.AddOrUpdate(product);
@@ -22,7 +29,19 @@ public class ProductService : IProductService
     public async Task<List<Product>> GetAll()
     {
         var products = await _productRepository.GetAll();
+        var hits = products.Hits;
+        foreach (var hit in hits)
+        {
+            hit.Source.Id = hit.Id;
+        }
 
-        return products;
+        return hits.Select(x => x.Source).ToList();
+    }
+
+    public async Task<bool> Remove(string key)
+    {
+        var isDeleted = await _productRepository.Remove(key);
+
+        return isDeleted;
     }
 }

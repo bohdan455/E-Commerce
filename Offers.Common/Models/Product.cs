@@ -1,9 +1,9 @@
-﻿namespace Offers.Common.Models;
+﻿using Offers.Common.Models.Base;
 
-public class Product
+namespace Offers.Common.Models;
+
+public class Product : BaseModel
 {
-    public string Id { get; set; }
-
     public string Title { get; set; }
 
     public string Description { get; set; }
