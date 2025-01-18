@@ -58,7 +58,7 @@ public abstract class BaseElasticRepository<T> : IBaseElasticRepository<T> where
 
     public virtual async Task<SearchResponse<T>?> Query(SearchRequestDescriptor<T> sd)
     {
-        var searchResponse = await _client.SearchAsync<T>(sd);
+        var searchResponse = await _client.SearchAsync<T>(sd.Index(IndexName));
         return searchResponse;
     }
 

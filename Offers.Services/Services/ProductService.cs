@@ -1,4 +1,6 @@
-﻿using Offers.Common.Models;
+﻿using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Core.Search;
+using Offers.Common.Models;
 using Offers.Services.Data.Repositories.Interfaces;
 using Offers.Services.Services.Interfaces;
 
@@ -43,5 +45,33 @@ public class ProductService : IProductService
         var isDeleted = await _productRepository.Remove(key);
 
         return isDeleted;
+    }
+
+    public async Task<List<Product>> Search(string searchPhrase)
+    {
+        var searchDescriptor = new SearchRequestDescriptor<Product>();
+        searchDescriptor.Query(q => q.Bool(b => b
+                                       .Should(
+                                           s => s.Wildcard(w => w
+                                               .Field(f => f.Title)
+                                               .Value($"*{searchPhrase}*")
+                                               .Boost(2)),
+                                           s => s.Wildcard(w => w
+                                               .Field(f => f.Description)
+                                               .Value($"*{searchPhrase}*")
+                                               .Boost(1))
+                                       )
+                                   ))
+                                   .Size(10);
+        var searchResponse = await _productRepository.Query(searchDescriptor);
+        
+        
+        var hits = searchResponse?.Hits;
+        foreach (var hit in hits ?? Enumerable.Empty<Hit<Product>>())
+        {
+            hit.Source.Id = hit.Id;
+        }
+
+        return hits?.Select(x => x.Source).ToList();
     }
 }

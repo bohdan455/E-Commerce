@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using Offers.Common.Models;
 using Offers.Requests;
@@ -31,6 +32,14 @@ public class ProductController : ControllerBase
         var products = await _productService.Get(key);
 
         return products is null ? NotFound() : Ok(products);
+    }
+    
+    [HttpGet("search")]
+    public async Task<IActionResult> Search([FromQuery][Required] string searchPhrase)
+    {
+        var products = await _productService.Search(searchPhrase);
+
+        return Ok(products);
     }
 
     [HttpPost]

@@ -11,4 +11,6 @@ public interface IProductService
     Task<List<Product>> GetAll();
 
     Task<bool> Remove(string key);
+    
+    Task<List<Product>> Search(string searchPhrase);
 }
